@@ -1,0 +1,22 @@
+<div class="container messageId">
+    <div class="message-wrapper">
+        <p> <?php $bodyMessage ?></p>
+        <div class="row">
+            <p> <?php $authorName ?> </p>
+            <p> <?php $time ?> </p>
+            <div class="admin-control">
+                <div class="edit">Edit</div>
+                <div class="delete">Delete</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="edit-message-form">
+        <?php include("edit-message-form.html"); ?>
+    </div>
+    
+    if has user session
+        show edit message form
+    else 
+        delete message form
+</div>
