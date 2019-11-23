@@ -1,11 +1,14 @@
 
 class EditMessageForm {
     // use ajax
-    sendMessage(authorName, body) {
+    sendMessage(messageId, authorName, body) {
+        var data = JSON.stringify({'body': body, 'authorName': authorName});
         $.ajax({
-            method: "PUT",
-            url: "update.php",
-            data: { authorName: authorName, body: body }
+            type: "PUT",
+            contentType: 'application/json',
+            dataType: 'json',
+            url: "update/message?token=4367ed45&message_id=" + messageId,
+            data: data
         })
         .done(function( msg ) {
             return msg;
@@ -18,8 +21,9 @@ class EditMessageForm {
 
     deleteMessage(messageId) {
         $.ajax({
+            type: "PUT",
             method: "DELETE",
-            url: "delete.php/" . messageId
+            url: "delete/message?token=4367ed45&message_id=" + messageId,
         })
         .done(function( msg ) {
             return msg;

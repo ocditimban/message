@@ -39,7 +39,4 @@ class SidebarLayout {
             $('#login-link').removeClass('.d-none');
         }
     }
-
 }
-
-// export default SidebarLayout;

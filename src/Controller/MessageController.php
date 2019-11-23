@@ -75,7 +75,7 @@ class MessageController {
             return ;
         }
 
-        $result = $this->repo->updateMessage($messageId, $body['body'], $body['authorName']);
+        $result = $this->repo->updateMessage($messageId, $body['authorName'], $body['body']);
         echo MiddleWareController::json_response(200, ['Ok']);
         return ;
     }
@@ -105,7 +105,21 @@ class MessageController {
     public function getMessagesByPage()
     {
         isset($_GET['page']) && $page = $_GET['page'];
-        $messages = $this->repo->findMessagesByPage($page);
+        
+        if ($page === null) {
+            $msg = 'Page is not found';
+            echo MiddleWareController::json_response(404, $msg);
+            return ;
+        }
+
+        isset($_GET['split']) && $split = $_GET['split'];
+        if (!$split) {
+            $msg = 'Split is not found';
+            echo MiddleWareController::json_response(404, $msg);
+            return ;
+        }
+
+        $messages = $this->repo->findMessagesByPage($page, $split);
         $results = [];
         foreach($messages as $message) {
             $results[$message['id']] = [
@@ -116,7 +130,12 @@ class MessageController {
             ];
         }
 
-        echo MiddleWareController::json_response(200, $results);
+        $data = [
+            'messages' => $results,
+            'total_page' => $this->repo->calculatePage($split)
+        ];
+
+        echo MiddleWareController::json_response(200, $data);
         return ;
     }
 }

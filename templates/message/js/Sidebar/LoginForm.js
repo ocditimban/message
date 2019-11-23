@@ -22,5 +22,3 @@ class LoginForm {
         // clear localStorage
     }
 }
-
-export default LoginForm;

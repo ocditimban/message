@@ -5,34 +5,59 @@
         EditMessageForm = new EditMessageForm();
         Messages = new Messages();
 
-        $( ".admin-control .edit" ).click(function() {
-            MainLayout.showEditForm();
+        Messages.init();
+
+        $('.messages-wrapper').delegate('.admin-control .edit','click',function() {
+            var messageWrapper = $(this).closest(".message-wrapper");
+            var messageId = messageWrapper.find('.message-id');
+            
+            // will be removed later than
+            // MainLayout.showEditForm(messageId);
+            Messages.sendMessageToEditForm(messageWrapper);
         });
 
-        $( ".admin-control .delete" ).click(function() {
-            messageId = $("input[name=messageId]").value();
+        $('.messages-wrapper').delegate('.admin-control .delete','click',function() {
+            var messageWrapper = $(this).closest(".message-wrapper");
+            let messageId = $.trim(messageWrapper.find('.message-id').text());
             EditMessageForm.deleteMessage(messageId);
-            Messages.refreshPage(1);
+            Messages.refreshPage(pageId = 0);
         });
 
-        $( "#edit-message-form" ).submit(function( event ) {
-            event.preventDefault();
-            // messageId = $("input[name=messageId]").value();
-            // authorName = $("input[name=authorName]").value();
-            // body = $("input[name=body]").value();
-            result = EditMessageForm.sendMessage(messageId, authorName = 'something' , body = 'something');
-            if (result) {
-                // send message by popup
-                MainLayout.hideEditForm();
-                Messages.refreshPage(1);
-                // refresh message to message list at page
-            }
+        // $( ".admin-control .delete" ).click(function() {
+        //     messageId = $("input[name=messageId]").value();
+        //     EditMessageForm.deleteMessage(messageId);
+        //     Messages.refreshPage(1);
+        // });
+
+        // detach form
+        $('.messages-wrapper').delegate('.edit-message-form :input','change',function( event) {
+            $(this).closest('.edit-message-form').data('changed', true);
         });
-        
-        // case change pager
-        $( ".pager" ).click(function() {
-            pager = $("input[name=messageId]").value();
-            Messages.refreshPage(pager);
+
+        // find the form detech
+        $('.messages-wrapper').delegate('.edit-message-form','submit',function( event) {
+            event.preventDefault();
+            if($(this).closest('.edit-message-form').data('changed')) {
+                var messageWrapper = $(this).closest(".message-wrapper");
+                let messageId = $.trim(messageWrapper.find('.message-id').text());
+                let authorName = messageWrapper.find(".edit-message-form [name='author_name']").val();
+                let content = messageWrapper.find(".edit-message-form [name='content']").val();
+                // EditMessageForm.up
+                EditMessageForm.sendMessage(messageId, authorName, content);
+                Messages.refreshPage(0);
+                // if (result) {
+                //     // send message by popup
+                //     MainLayout.hideEditForm();
+                //     Messages.refreshPage(1);
+                //     // refresh message to message list at page
+                // }
+             }
+            
+        });
+
+        $('#pages-wrapper').delegate('.page','click',function() {
+            var pageId = $.trim($(this).text());
+            Messages.refreshPage(pageId - 1);
         });
     });
 

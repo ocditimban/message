@@ -1,8 +1,4 @@
 
-// import { LoginForm } from './../Sidebar/LoginForm';
-// import { ContactForm } from './../Sidebar/ContactForm.js';
-// import { SidebarLayout } from '/SidebarLayout';
-
 
 (function ($) {
     // jQuery
@@ -10,7 +6,6 @@
     jQuery(document).ready(function () {
         SidebarLayout = new SidebarLayout();
         ContactForm = new ContactForm();
-        Messages = new Messages();
 
         $( "#add-message" ).click(function() {
             SidebarLayout.showContactForm();

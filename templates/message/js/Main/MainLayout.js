@@ -4,17 +4,13 @@ class MainLayout {
         this.element = this;
     }
 
-    showEditForm() {
-        $('.message-wrapper').addClass('.d-none');
-        $('.edit-message-form').removeClass('.d-none');
+    showEditForm(messageWrapper) {
+        messageWrapper.find('.message').addClass('.d-none');
+        messageWrapper.find('.edit-message-form').removeClass('.d-none');
     }
 
     hideEditForm() {
-        $('.edit-message-form').addClass('.d-none');
-        $('.message-wrapper').removeClass('.d-none');
+        messageWrapper.find('.edit-message-form').addClass('.d-none');
+        messageWrapper.find('.message').removeClass('.d-none');
     }
-
-
-    
-
 }

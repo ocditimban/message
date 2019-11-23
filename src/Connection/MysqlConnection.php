@@ -28,15 +28,19 @@ class MysqlConnection {
         return false;
     }
 
-    public function query(string $query, array $args = [], int $type = null) {
+    public function query(string $query, array $args = [], int $type = null, bool $fetchAll = false) {
         if(!$this->connection) {
             $this->connection = $this->connect();
         }
 
         $query = $this->connection->prepare($query);
         $result = $query->execute($args);
-        if ($type) {
+        if ($type && $fetchAll) {
             return $query->fetchAll($type);
+        }
+
+        if ($type && !$fetchAll) {
+            return $query->fetch($type);
         }
         return $result;
     }

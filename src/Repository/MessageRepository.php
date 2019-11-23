@@ -18,10 +18,16 @@ class MessageRepository {
         return $this->mysqlConnection->query($query, [$messageId], PDO::FETCH_ASSOC);
     }
 
-    public function findMessagesByPage($page)
+    public function findMessagesByPage($page, $split)
     {
-        $query = 'SELECT * FROM messages LIMIT 6 OFFSET ' . $page;
-        return $this->mysqlConnection->query($query, [], PDO::FETCH_ASSOC);
+        $query = 'SELECT * FROM messages ORDER BY id DESC LIMIT ' . $split . ' OFFSET ' . ($page * $split);
+        return $this->mysqlConnection->query($query, [], PDO::FETCH_ASSOC, $fetchAll = true);
+    }
+
+    public function calculatePage($split) {
+        $query = 'SELECT count(*) FROM messages';
+        $totalMessage = $this->mysqlConnection->query($query, [], PDO::FETCH_COLUMN);
+        return ceil($totalMessage / $split);
     }
 
     public function createMessage(string $body, string $authorName, int $authorId)
