@@ -23,11 +23,6 @@
             Messages.refreshPage(pageId = 0);
         });
 
-        // $( ".admin-control .delete" ).click(function() {
-        //     messageId = $("input[name=messageId]").value();
-        //     EditMessageForm.deleteMessage(messageId);
-        //     Messages.refreshPage(1);
-        // });
 
         // detach form
         $('.messages-wrapper').delegate('.edit-message-form :input','change',function( event) {
@@ -44,7 +39,7 @@
                 let content = messageWrapper.find(".edit-message-form [name='content']").val();
                 // EditMessageForm.up
                 EditMessageForm.sendMessage(messageId, authorName, content);
-                Messages.refreshPage(0);
+                Messages.refreshPage();
                 // if (result) {
                 //     // send message by popup
                 //     MainLayout.hideEditForm();
@@ -56,7 +51,9 @@
         });
 
         $('#pages-wrapper').delegate('.page','click',function() {
+            $(this).closest(".page-item").addClass('active');
             var pageId = $.trim($(this).text());
+            sessionStorage.setItem('page', pageId);
             Messages.refreshPage(pageId - 1);
         });
     });

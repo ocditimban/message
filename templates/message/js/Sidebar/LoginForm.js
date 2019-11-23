@@ -1,14 +1,20 @@
 class LoginForm {
     // use ajax
     login(authorName, password) {
+        var data = JSON.stringify({'author_name': authorName, 'password': password});
         $.ajax({
-            method: "POST",
-            url: "login.php",
-            data: { authorName: authorName, password: password }
+            type: "POST",
+            contentType: 'application/json',
+            dataType: 'json',
+            url: "login",
+            data: data,
+            cache: false
         })
         .done(function( msg ) {
-            // save localStorage
-            localStorage.addItem('user');
+            if (msg.status == true) {
+                localStorage.setItem('token', msg.message.token);
+                console.log('set');
+            }
             return msg;
         })
         .fail(function() {
@@ -18,7 +24,6 @@ class LoginForm {
     }
 
     logout() {
-        localStorage.removeItem('user');
-        // clear localStorage
+        localStorage.removeItem('token');
     }
 }

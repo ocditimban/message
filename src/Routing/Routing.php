@@ -19,7 +19,7 @@ class Routing {
 
         switch ($path) {
             case '/login':
-                return (new AuthorController($messageRepo))->login();
+                return (new AuthorController($authRepo))->login();
             case  '/add/message':
                 return (new MessageController($messageRepo, $authRepo))->createMessage();
             case  '/update/message':

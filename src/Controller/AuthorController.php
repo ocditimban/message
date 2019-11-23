@@ -12,7 +12,7 @@ class AuthorController {
     }
 
     public function validate($body) {
-        if (!isset($body['authorName'])) {
+        if (!isset($body['author_name'])) {
             return 'Author name is missing';
         }
 
@@ -31,7 +31,7 @@ class AuthorController {
             return ;
         }
 
-        $authorName = $body['authorName'];
+        $authorName = $body['author_name'];
         $password = $body['password'];
 
         $result = $this->repo->login($authorName, $password);

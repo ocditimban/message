@@ -120,13 +120,14 @@ class MessageController {
         }
 
         $messages = $this->repo->findMessagesByPage($page, $split);
+        
         $results = [];
         foreach($messages as $message) {
-            $results[$message['id']] = [
+            $results[] = [
                 'id' => $message['id'],
                 'body' => $message['body'],
                 'author_name' => $message['author_name'],
-                'created' => $message['created'],
+                'created' => $this->getTimeStringByUnix($message['created']),
             ];
         }
 
@@ -137,5 +138,12 @@ class MessageController {
 
         echo MiddleWareController::json_response(200, $data);
         return ;
+    }
+
+    public function getTimeStringByUnix($unix) {
+        // die(print_r((strtotime($unix))));
+        $dtm = new \DateTime('@' .$unix);
+        $dtm->setTimezone(new \DateTimeZone('Asia/Ho_Chi_Minh'));
+        return $dtm->format('dS M, Y') . ' at ' . $dtm->format('h:ia');
     }
 }

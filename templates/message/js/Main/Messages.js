@@ -1,11 +1,18 @@
 class Messages {
     
+    getPage = () => {
+        var page = sessionStorage.getItem('page');
+        return (page) ? page - 1 : 0;
+    }
+
     // use ajax
-    refreshPage(pageNumber) {
+    refreshPage() {
+        let page = this.getPage();
+        
         var myClass = this;    
         $.ajax({
             method: "GET",
-            url: "get/messages?page=" + pageNumber + "&split=2",
+            url: "get/messages?page=" + page + "&split=6",
             cache: false
         })
         .done(function( msg ) {
@@ -23,10 +30,11 @@ class Messages {
 
 
     init() {
+        let page = this.getPage();
         var myClass = this;
         $.ajax({
             method: "GET",
-            url: "get/messages?page=0&split=2",
+            url: "get/messages?page=" + page + "&split=6",
             cache: false
         })
         .done(function( msg ) {
@@ -43,10 +51,15 @@ class Messages {
 
     renderPage = (total_page) => {
         var html = '';
+        let page = this.getPage();
         for(var i = 1; i <= total_page; i++) {
-            html += `<span class="page page-${i}">${i}</span>`;
+            let activeClass = 'page-item';
+            if ((page + 1) == i) {
+                activeClass += ' active';
+            }
+            html += `<li class="${activeClass}"><a class="page-link page page-${i} mx-2" href="#">${i}</a></li>`;
         }
-        $('#pages-wrapper').html(html);
+        $('#pages-wrapper .pagination').html(html);
     }
 
     sendMessageToEditForm = (messageWrapper) => {
@@ -58,36 +71,41 @@ class Messages {
 
     renderMessage = (messages) => {
         var html = '';
-        html += '<div class="container"><div class="row">';
+        html += '<div class="container"><div class="row no-gutters">';
         $.each(messages, function(index, obj) {
             html +=
                 `
-                <div class="col-lg-6 col-md-6 col-sm-12 message-${obj.id}">
+                <div class="col-lg-6 col-md-12 col-sm-12 message-${obj.id}">
                     <div class="message-wrapper">
                         <div class="message">
-                            <p class="content"> ${obj.body}</p>
-                            <div class="row">
-                                <p class="author-name"> ${obj.author_name} </p>
-                                <p class="created"> ${obj.created} </p>
-                                <div class="admin-control">
-                                    <div class="edit">Edit</div>
-                                    <div class="delete">Delete</div>
+                            <p class="content mb-4">
+                                <i class="start-quote fas fa-quote-left"></i>
+                                ${obj.body}
+                            </p>
+                            <div class="row no-gutters">
+                                <div class="author-name-created-wrapper col-10 row no-gutters">
+                                    <span class="author-name col-12 mb-2"> ${obj.author_name} </span>
+                                    <span class="created col-12"> ${obj.created} </span>
+                                </div>
+                                <div class="admin-control col-2">
+                                    <i class="edit mx-1 far fa-edit"></i>
+                                    <i class="delete far fa-trash-alt"></i>
                                 </div>
                             </div>
                         </div>
-                        <div id="edit-message-form-${obj.id}" class="edit-message-form">
+                        <div id="edit-message-form-${obj.id}" class="edit-message-form d-none">
                             <!-- Contact form -->
                             <form class ='edit-message-form'>
-                                <div class="message-id">
+                                <div class="message-id d-none">
                                     ${obj.id}
                                 </div>
-                                <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-lg" placeholder="Author Name" name="author_name">
                                     </div>
                                             
                                     <div class="form-group">
-                                        <textarea class="form-control form-control-lg" name="content">
+                                        <textarea class="form-control" name="content" rows="3">
                                             
                                         </textarea>
                                     </div>
@@ -97,13 +115,6 @@ class Messages {
                             </form>
                         </div>
                     </div>
-
-                    
-                    
-                    if has user session
-                        show edit message form
-                    else 
-                        delete message form
                 </div>`
         });
 

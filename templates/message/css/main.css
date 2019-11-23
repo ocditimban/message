@@ -1,3 +1,41 @@
-body {
-    background: gold !important;
+
+@font-face {
+    font-family: 'MyWebFont';
+    src: url('../font/Caveat-Bold.ttf')  format('truetype');
+    font-weight:normal; 
+    font-style:normal;
+}
+
+.sidebar{
+    background: white;
+}
+
+/* * {
+    font-size: 100%;
+    font-family: 'MyWebFont';
+} */
+
+.quote {
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+}
+
+
+.fas {
+    font-size: 3.5rem;
+    position: absolute;
+    top: 8%;
+    left: 25%;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.fa-quote-left:before {
+    content: "\f10d";
+}
+
+.admin-control i{
+    cursor: pointer;
 }

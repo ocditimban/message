@@ -1,21 +1,19 @@
 <!-- Contact form -->
 <div class="login-form-wrapper container">
-    <form id ='contact-form'>
-        <div class="row">
-            <div class="container">
-                <h1>Login Form</h1> 
-            </div>
-            <div class="container">
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-lg" placeholder="Author Name" name="">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-lg" placeholder="Password" name="">
-                </div>
-                
-                <input type="submit" class="btn btn-secondary btn-block" value="Login" name="">
-            </div>
+    <form id ='login-form' class="mb-4 d-none">
+        <h3 class="my-4">Login</h3> 
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Author Name" name="author_name">
         </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Password" name="password">
+        </div>
+        
+        <input type="submit" class="btn btn-secondary btn-block" value="Login" name="">
     </form>
+
+
+    <a href="#" id="login-link" class="stretched-link" style="position: relative;">Admin Login</a>
+    <a href="#" id="logout-link" class="stretched-link d-none" style="position: relative;">Admin Logout</a>
 </div>

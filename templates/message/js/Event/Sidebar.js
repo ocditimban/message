@@ -6,6 +6,7 @@
     jQuery(document).ready(function () {
         SidebarLayout = new SidebarLayout();
         ContactForm = new ContactForm();
+        LoginForm = new LoginForm();
 
         $( "#add-message" ).click(function() {
             SidebarLayout.showContactForm();
@@ -13,15 +14,11 @@
 
         $( "#contact-form" ).submit(function( event ) {
             event.preventDefault();
-            // authorName = $("input[name=authorName]").value();
-            // body = $("input[name=body]").value();
-            result = ContactForm.sendMessage(authorName = 'something' , body = 'something');
-            if (result) {
-                // send message by popup
-                SidebarLayout.hideContactForm();
-                Messages.refreshPage(1);
-                // refresh message to message list at page
-            }
+            var authorName = $(this).find("[name='author_name']").val();
+            var body = $(this).find("[name='body']").val();
+            ContactForm.sendMessage(authorName, body);
+            Messages.refreshPage(0);
+            // SidebarLayout.hideContactForm();
         });
 
         // case login
@@ -32,16 +29,14 @@
 
         $( "#login-form" ).submit(function( event ) {
             event.preventDefault();
-            
-            authorName = $("input[name=authorName]").value();
-            password = $("input[name=password]").value();
-            result = LoginForm.login(authorName, password);
-            if (result) {
-                // send message by popup
-                SidebarLayout.hideLoginForm();
-                SidebarLayout.logoutLoginToggle('logout');
-                Messages.showAdminControl();
-            }
+            var authorName = $(this).find("[name='author_name']").val();
+            var password = $(this).find("[name='password']").val();
+
+            LoginForm.login(authorName, password);
+            // send message by popup
+            //SidebarLayout.hideLoginForm();
+            //SidebarLayout.logoutLoginToggle('logout');
+            //Messages.showAdminControl();
         });
 
         // case logout

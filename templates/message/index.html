@@ -8,16 +8,17 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../templates/message/css/main.css">
+    <script src="https://kit.fontawesome.com/fc8e21acc8.js" crossorigin="anonymous"></script>
     <title>Messages</title>
   </head>
-  <body>
+  <body class="bg-light">
     <div class="container">
       <div class="row">
         <!-- Form-->
-        <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="col-lg-4 col-md-4 col-sm-12 sidebar pt-5">
           <?php include("includes/Sidebar/sidebar.html"); ?>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="col-lg-8 col-md-8 col-sm-12 main bg-dark pt-5 text-light">
           <?php include("includes/Main/main.html"); ?>
         </div>
       </div>
@@ -37,6 +38,7 @@
     <script src='../templates/message/js/Event/Main.js'></script>
     
     <!-- SideBar -->
+    <script src='../templates/message/js/SideBar/LoginForm.js'></script>
     <script src='../templates/message/js/SideBar/ContactForm.js'></script>
     <script src='../templates/message/js/SideBar/SidebarLayout.js'></script>
     <script src='../templates/message/js/Event/Sidebar.js'></script>
