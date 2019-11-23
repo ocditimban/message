@@ -2,26 +2,32 @@
 
 namespace Message\Routing;
 
-use Message\Controller\MiddleWareController;
 use Message\Controller\AuthorController;
 use Message\Controller\MessageController;
+
+// Repository
+use Message\Connection\MysqlConnection;
+use Message\Repository\AuthorRepository;
+use Message\Repository\MessageRepository;
 
 class Routing {
 
     static function dispatch($path) {
+        $msql = new MysqlConnection;
+        $messageRepo = new MessageRepository($msql);
+        $authRepo = new AuthorRepository($msql);
+
         switch ($path) {
             case '/login':
-                // MiddleWareController::process();
-                return (new AuthorController)->login();
+                return (new AuthorController($messageRepo))->login();
             case  '/add/message':
-                // MiddleWareController::process();
-                return (new MessageController)->createMessage();
+                return (new MessageController($messageRepo, $authRepo))->createMessage();
             case  '/update/message':
-                // MiddleWareController::process();
-                return (new MessageController)->updateMessage();
+                return (new MessageController($messageRepo, $authRepo))->updateMessage();
             case  '/delete/message':
-                // MiddleWareController::process();
-                return (new MessageController)->deleteMessage();
+                return (new MessageController($messageRepo, $authRepo))->deleteMessage();
+            case '/get/messages':
+                return (new MessageController($messageRepo, $authRepo))->getMessagesByPage();
             default:
                 return false;
         }

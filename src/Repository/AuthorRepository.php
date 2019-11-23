@@ -2,31 +2,39 @@
 
 namespace Message\Repository;
 
+use Message\Connection\MysqlConnection;
+use PDO;
+
 class AuthorRepository {
 
-    public function contruct(Mysql $con = null) {
-        $this->con = $con;
+    public function __construct(MysqlConnection $mysqlConnection = null) {
+        $this->mysqlConnection = $mysqlConnection;
     }
 
     public function generateToken() {
+        return substr(md5(uniqid(mt_rand(), true)) , 0, 8);
+    }
 
+    public function generatePassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function login(string $userName, string $password)
-    {   
-        # code...
-        $passwordDb = $this->con('Select password from users where authorName = ?', [$userName])->fetchCol();
+    {
+        $passwordDb = $this->mysqlConnection->query('SELECT password FROM authors WHERE name = ?', [$userName], PDO::FETCH_COLUMN);
         if (password_verify($password, $passwordDb)) {
             $token = $this->generateToken();
-            $this->con('Update token from users where authorName = ?', [$userName]);
+
+            $query = 'UPDATE authors SET token = ? WHERE name = ?';
+            $this->mysqlConnection->query($query, [$token, $userName]);
             return $token;
         }
         return false;
     }
 
-    public function validateToken(string $token)
+    public function findAuthorIdByToken(string $token)
     {
-        $id = $this->con('Select id from users where token = ?', [$token])->fetchCol();
-        return ($$id) ? true : false;
+        $authorId = $this->mysqlConnection->query('SELECT id from authors where token = ?', [$token], PDO::FETCH_COLUMN);
+        return ($authorId) ? $authorId : 0;
     }
 }

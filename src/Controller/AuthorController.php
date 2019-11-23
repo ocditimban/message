@@ -3,12 +3,11 @@
 namespace Message\Controller;
 use Message\Repository\AuthorRepository;
 
-
 class AuthorController {
 
     private $repo;
 
-    public function construct(AuthorRepository $repo) {
+    public function __construct(AuthorRepository $repo) {
         $this->repo = $repo;
     }
 
@@ -37,7 +36,7 @@ class AuthorController {
 
         $result = $this->repo->login($authorName, $password);
         if (!$result) {
-            $msg = 'Invalid authorName or password';
+            $msg = 'Invalid name or password';
             echo MiddleWareController::json_response(400, $msg);
             return ;
         }
