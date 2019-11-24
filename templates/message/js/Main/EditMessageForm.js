@@ -3,7 +3,7 @@ class EditMessageForm {
     // use ajax
     sendMessage(messageId, authorName, body) {
         let token = localStorage.getItem('token');
-        var data = JSON.stringify({'body': body, 'authorName': authorName});
+        var data = JSON.stringify({'body': body, 'author_name': authorName});
         $.ajax({
             type: "PUT",
             contentType: 'application/json',

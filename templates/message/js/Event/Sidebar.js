@@ -10,6 +10,7 @@
 
         $( "#add-message" ).click(function() {
             SidebarLayout.showContactForm();
+            ContactForm.addAuthorNameDefault();
         });
 
         $( "#contact-form" ).submit(function( event ) {

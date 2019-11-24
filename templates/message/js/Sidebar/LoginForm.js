@@ -14,21 +14,17 @@ class LoginForm {
         .done(function( msg ) {
             if (msg.status == true) {
                 localStorage.setItem('token', msg.message.token);
+                localStorage.setItem('author_name', authorName);
             }
             return msg;
         })
         .fail(function() {
             return false;
         })
-
-        // return this.isLogin();
-    }
-
-    isLogin() {
-        return (localStorage.getItem('token')) ? true : false;
     }
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('author_name');
     }
 }

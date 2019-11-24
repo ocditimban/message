@@ -30,7 +30,7 @@ class MessageRepository {
         return ceil($totalMessage / $split);
     }
 
-    public function createMessage(string $body, string $authorName, int $authorId)
+    public function createMessage(string $authorName, string $body, int $authorId)
     {
         $query = 'INSERT INTO messages (body, author_id, created, updated, author_name) VALUES (?, ?, ?, ?, ?)';
         $this->mysqlConnection->query($query, [$body, $authorId, time(), time(), $authorName]);

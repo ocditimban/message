@@ -19,8 +19,8 @@ class MessageController {
             return 'body is missing';
         }
 
-        if (!isset($body['authorName'])) {
-            return 'authorName is missing';
+        if (!isset($body['author_name'])) {
+            return 'author_name is missing';
         }
 
         return false;
@@ -42,7 +42,7 @@ class MessageController {
 
         isset($_GET['token']) && $token = $_GET['token'];
         $authorId = ($token) ? $this->authorRepo->findAuthorIdByToken($token) : 0;
-        $result = $this->repo->createMessage($body['authorName'], $body['body'], $authorId);
+        $result = $this->repo->createMessage($body['author_name'], $body['body'], $authorId);
         if (!$result) {
             $msg = 'Can not create message';
             echo MiddleWareController::json_response(400, $msg);
@@ -75,7 +75,7 @@ class MessageController {
             return ;
         }
 
-        $result = $this->repo->updateMessage($messageId, $body['authorName'], $body['body']);
+        $result = $this->repo->updateMessage($messageId, $body['author_name'], $body['body']);
         echo MiddleWareController::json_response(200, ['Ok']);
         return ;
     }
