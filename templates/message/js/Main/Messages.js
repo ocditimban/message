@@ -63,7 +63,7 @@ class Messages {
     }
 
     sendMessageToEditForm = (messageWrapper) => {
-        let body = messageWrapper.find('.message .content').text();
+        let body = messageWrapper.find('.message .content').text().trim();
         let authorName = messageWrapper.find('.message .author-name').text();
         messageWrapper.find(".edit-message-form [name='author_name']").val(authorName);
         messageWrapper.find(".edit-message-form [name='content']").val(body);
@@ -72,11 +72,13 @@ class Messages {
     renderMessage = (messages) => {
         var html = '';
         html += '<div class="container"><div class="row no-gutters">';
+
+        var showAdminControl = (localStorage.getItem('token')) ? '' : 'd-none';
         $.each(messages, function(index, obj) {
             html +=
                 `
                 <div class="col-lg-6 col-md-12 col-sm-12 message-${obj.id}">
-                    <div class="message-wrapper">
+                    <div class="message-wrapper pb-5">
                         <div class="message">
                             <p class="content mb-4">
                                 <i class="start-quote fas fa-quote-left"></i>
@@ -87,7 +89,7 @@ class Messages {
                                     <span class="author-name col-12 mb-2"> ${obj.author_name} </span>
                                     <span class="created col-12"> ${obj.created} </span>
                                 </div>
-                                <div class="admin-control col-2">
+                                <div class="admin-control col-2 ${showAdminControl}">
                                     <i class="edit mx-1 far fa-edit"></i>
                                     <i class="delete far fa-trash-alt"></i>
                                 </div>
@@ -105,12 +107,10 @@ class Messages {
                                     </div>
                                             
                                     <div class="form-group">
-                                        <textarea class="form-control" name="content" rows="3">
-                                            
-                                        </textarea>
+                                        <textarea class="form-control" name="content" rows="3" wrap="virtual"></textarea>
                                     </div>
                                     <input type="submit" class="btn btn-secondary btn-block" value="Send" name="submit">
-                                    <button id="cancel-edit-message" class="btn btn-secondary btn-block">Cancel</button>
+                                    <button class="cancel-edit-message btn btn-secondary btn-block">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -120,17 +120,5 @@ class Messages {
 
         html += '</div></div>';
         $('.messages-wrapper').html(html);
-    }
-
-    showAdminControl() {
-        if (localStorage.getItem('user')) {
-            $('.admin-control').removeClass('.d-none');
-        }
-    }
-
-    hideAdminControl() {
-        if (!localStorage.getItem('user')) {
-            $('.admin-control').addClass('.d-none');
-        }   
     }
 }

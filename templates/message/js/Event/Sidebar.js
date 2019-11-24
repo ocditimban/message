@@ -1,5 +1,3 @@
-
-
 (function ($) {
     // jQuery
     
@@ -7,6 +5,8 @@
         SidebarLayout = new SidebarLayout();
         ContactForm = new ContactForm();
         LoginForm = new LoginForm();
+
+        SidebarLayout.init();
 
         $( "#add-message" ).click(function() {
             SidebarLayout.showContactForm();
@@ -21,30 +21,33 @@
             // SidebarLayout.hideContactForm();
         });
 
-        // case login
-        $( "#login-link" ).click(function() {
-            SidebarLayout.showLoginForm();
-            SidebarLayout.logoutLoginToggle('login');
-        });
-
         $( "#login-form" ).submit(function( event ) {
             event.preventDefault();
-            var authorName = $(this).find("[name='author_name']").val();
-            var password = $(this).find("[name='password']").val();
+            let authorName = $(this).find("[name='author_name']").val();
+            let password = $(this).find("[name='password']").val();
 
-            LoginForm.login(authorName, password);
-            // send message by popup
-            //SidebarLayout.hideLoginForm();
-            //SidebarLayout.logoutLoginToggle('logout');
-            //Messages.showAdminControl();
+            let result = LoginForm.login(authorName, password);
+            let ajaxResponse = jQuery.parseJSON(result.responseText);
+            if (ajaxResponse.status == true) {
+                // send message by popup
+                SidebarLayout.hideLoginForm();
+                SidebarLayout.logoutLoginToggle('login');
+                MainLayout.showAdminControl();
+            }
+        });
+
+        $("#login-link").click(function(event) {
+            event.preventDefault();
+            SidebarLayout.showLoginForm();
         });
 
         // case logout
-        $( "#logout-link" ).click(function() {
+        $( "#logout-link" ).click(function(event) {
+            event.preventDefault();
             // clear user in localStorage
             LoginForm.logout();
             SidebarLayout.logoutLoginToggle('logout');
-            Messages.hideAdminControl();
+            MainLayout.hideAdminControl();
             // show logout link
         });
     });

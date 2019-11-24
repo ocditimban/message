@@ -9,20 +9,21 @@
 
         $('.messages-wrapper').delegate('.admin-control .edit','click',function() {
             var messageWrapper = $(this).closest(".message-wrapper");
-            var messageId = messageWrapper.find('.message-id');
-            
-            // will be removed later than
-            // MainLayout.showEditForm(messageId);
+            MainLayout.showEditForm(messageWrapper);
             Messages.sendMessageToEditForm(messageWrapper);
+        });
+
+        $('.messages-wrapper').delegate('.cancel-edit-message','click',function() {
+            var messageWrapper = $(this).closest(".message-wrapper");
+            MainLayout.hideEditForm(messageWrapper);
         });
 
         $('.messages-wrapper').delegate('.admin-control .delete','click',function() {
             var messageWrapper = $(this).closest(".message-wrapper");
             let messageId = $.trim(messageWrapper.find('.message-id').text());
             EditMessageForm.deleteMessage(messageId);
-            Messages.refreshPage(pageId = 0);
+            Messages.refreshPage();
         });
-
 
         // detach form
         $('.messages-wrapper').delegate('.edit-message-form :input','change',function( event) {
@@ -40,12 +41,6 @@
                 // EditMessageForm.up
                 EditMessageForm.sendMessage(messageId, authorName, content);
                 Messages.refreshPage();
-                // if (result) {
-                //     // send message by popup
-                //     MainLayout.hideEditForm();
-                //     Messages.refreshPage(1);
-                //     // refresh message to message list at page
-                // }
              }
             
         });
