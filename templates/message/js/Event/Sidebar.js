@@ -18,7 +18,6 @@
             var body = $(this).find("[name='body']").val();
             ContactForm.sendMessage(authorName, body);
             Messages.refreshPage(0);
-            // SidebarLayout.hideContactForm();
         });
 
         $( "#login-form" ).submit(function( event ) {
@@ -44,11 +43,9 @@
         // case logout
         $( "#logout-link" ).click(function(event) {
             event.preventDefault();
-            // clear user in localStorage
             LoginForm.logout();
             SidebarLayout.logoutLoginToggle('logout');
             MainLayout.hideAdminControl();
-            // show logout link
         });
     });
 

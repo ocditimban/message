@@ -26,9 +26,6 @@ class Messages {
         return false;
     }
 
-    // edit page
-
-
     init() {
         let page = this.getPage();
         var myClass = this;
