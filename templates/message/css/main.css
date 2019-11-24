@@ -10,10 +10,10 @@
     background: white;
 }
 
-/* * {
+.message .author-name {
     font-size: 100%;
     font-family: 'MyWebFont';
-} */
+}
 
 .quote {
 	position: absolute;

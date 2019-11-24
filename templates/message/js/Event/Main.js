@@ -39,8 +39,11 @@
                 let authorName = messageWrapper.find(".edit-message-form [name='author_name']").val();
                 let content = messageWrapper.find(".edit-message-form [name='content']").val();
                 // EditMessageForm.up
-                EditMessageForm.sendMessage(messageId, authorName, content);
-                Messages.refreshPage();
+                let result = EditMessageForm.sendMessage(messageId, authorName, content);
+                let ajaxResponse = jQuery.parseJSON(result.responseText);
+                if (ajaxResponse.status == true) {
+                    Messages.refreshPage();
+                }
              }
             
         });

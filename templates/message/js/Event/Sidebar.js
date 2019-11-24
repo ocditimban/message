@@ -7,18 +7,23 @@
         LoginForm = new LoginForm();
 
         SidebarLayout.init();
+        ContactForm.addAuthorNameDefault();
 
         $( "#add-message" ).click(function() {
             SidebarLayout.showContactForm();
-            ContactForm.addAuthorNameDefault();
         });
 
         $( "#contact-form" ).submit(function( event ) {
             event.preventDefault();
             var authorName = $(this).find("[name='author_name']").val();
             var body = $(this).find("[name='body']").val();
-            ContactForm.sendMessage(authorName, body);
-            Messages.refreshPage(0);
+             
+            let result = ContactForm.sendMessage(authorName, body);
+            let ajaxResponse = jQuery.parseJSON(result.responseText);
+            if (ajaxResponse.status == true) {
+                Messages.refreshPage(0);
+                ContactForm.clearForm();
+            }
         });
 
         $( "#login-form" ).submit(function( event ) {
@@ -33,6 +38,7 @@
                 SidebarLayout.hideLoginForm();
                 SidebarLayout.logoutLoginToggle('login');
                 MainLayout.showAdminControl();
+                ContactForm.addAuthorNameDefault();
             }
         });
 
@@ -47,6 +53,7 @@
             LoginForm.logout();
             SidebarLayout.logoutLoginToggle('logout');
             MainLayout.hideAdminControl();
+            ContactForm.addAuthorNameDefault();
         });
     });
 

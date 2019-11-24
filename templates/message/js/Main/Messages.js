@@ -84,7 +84,7 @@ class Messages {
                             <div class="row no-gutters">
                                 <div class="author-name-created-wrapper col-10 row no-gutters">
                                     <span class="author-name col-12 mb-2"> ${obj.author_name} </span>
-                                    <span class="created col-12"> ${obj.created} </span>
+                                    <small class="created text-secondary h6 small col-12"> ${obj.created} </small>
                                 </div>
                                 <div class="admin-control col-2 ${showAdminControl}">
                                     <i class="edit mx-1 far fa-edit"></i>

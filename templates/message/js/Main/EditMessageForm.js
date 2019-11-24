@@ -4,12 +4,13 @@ class EditMessageForm {
     sendMessage(messageId, authorName, body) {
         let token = localStorage.getItem('token');
         var data = JSON.stringify({'body': body, 'author_name': authorName});
-        $.ajax({
+        return $.ajax({
             type: "PUT",
             contentType: 'application/json',
             dataType: 'json',
             url: "update/message?token=" + token + "&message_id=" + messageId,
-            data: data
+            data: data,
+            async: !1,
         })
         .done(function( msg ) {
             return msg;
@@ -17,7 +18,6 @@ class EditMessageForm {
         .fail(function() {
             return false;
         })
-        return false;
     }
 
     deleteMessage(messageId) {
